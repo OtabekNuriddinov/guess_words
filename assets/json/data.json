@@ -1,0 +1,253 @@
+[
+  {
+    "left": {
+      "imageUrl": "assets/images/bow_or.jpg",
+      "color": 16711680,
+      "length": 3,
+      "fill": 3,
+      "name": "bow"
+    },
+    "right": {
+      "imageUrl": "assets/images/owl.jpg",
+      "color": 255,
+      "length": 3,
+      "fill": 3,
+      "name": "owl"
+    },
+    "description": "a vessel or a container",
+    "word": "BOWL",
+    "letters": ["O", "L", "W", "B"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 1,
+    "rightLetter": 3,
+    "middleLetter": 2,
+    "level": 1,
+    "coin": 100
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/bee.jpg",
+      "color": 16776960,
+      "length": 3,
+      "fill": 3,
+      "name": "bee"
+    },
+    "right": {
+      "imageUrl": "assets/images/ear.webp",
+      "color": 4294923520,
+      "length": 3,
+      "fill": 3,
+      "name": "ear"
+    },
+    "description": "a large & heavy animal",
+    "word": "BEAR",
+    "letters": ["E", "A", "R", "B"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 1,
+    "rightLetter": 3,
+    "middleLetter": 2,
+    "level": 2,
+    "coin": 200
+  },
+
+  {
+    "left": {
+      "imageUrl": "assets/images/pan.jpg",
+      "color": 6932366,
+      "length": 3,
+      "fill": 3,
+      "name": "pan"
+    },
+    "right": {
+      "imageUrl": "assets/images/ant.jpg",
+      "color": 16711680,
+      "length": 3,
+      "fill": 3,
+      "name": "ant"
+    },
+    "description": "short & quick breaths",
+    "word": "PANT",
+    "letters": ["N", "P", "A", "T"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 1,
+    "rightLetter": 3,
+    "middleLetter": 2,
+    "level": 3,
+    "coin": 300
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/tea.jpg",
+      "color": 16711680,
+      "length": 3,
+      "fill": 3,
+      "name": "tea"
+    },
+    "right": {
+      "imageUrl": "assets/images/ear.webp",
+      "color": 16776960,
+      "length": 3,
+      "fill": 3,
+      "name": "ear"
+    },
+    "description": "a drop from a person's eye",
+    "word": "TEAR",
+    "letters": ["T", "R", "A", "E"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 1,
+    "rightLetter": 3,
+    "middleLetter": 2,
+    "level": 4,
+    "coin": 400
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/bee.jpg",
+      "color": 9163794,
+      "length": 3,
+      "fill": 2,
+      "name": "bee"
+    },
+    "right": {
+      "imageUrl": "assets/images/gun_origin.jpg",
+      "color": 16753920,
+      "length": 3,
+      "fill": 3,
+      "name": "gun"
+    },
+    "description": "start",
+    "word": "BEGUN",
+    "letters": ["E", "O", "U", "N", "B", "G"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 2,
+    "rightLetter": 3,
+    "middleLetter": 0,
+    "level": 5,
+    "coin": 500
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/rain.jpg",
+      "color": 16776960,
+      "length": 5,
+      "fill": 4,
+      "name": "rain"
+    },
+    "right": {
+      "imageUrl": "assets/images/bow2.jpg",
+      "color": 16711680,
+      "length": 3,
+      "fill": 3,
+      "name": "bow"
+    },
+    "description": "a seven color arch",
+    "word": "RAINBOW",
+    "letters": ["O", "E", "B", "R", "A", "W", "I", "N", "P"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 4,
+    "rightLetter": 3,
+    "middleLetter": 0,
+    "level": 6,
+    "coin": 600
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/lemon.jpg",
+      "color": 255,
+      "length": 5,
+      "fill": 3,
+      "name": "lemon"
+    },
+    "right": {
+      "imageUrl": "assets/images/key.jpg",
+      "color": 9163794,
+      "length": 3,
+      "fill": 3,
+      "name": "key"
+    },
+    "description": "animal that lives on trees",
+    "word": "MONKEY",
+    "letters": ["M", "O", "L", "E", "K", "S", "N", "Y"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 3,
+    "rightLetter": 3,
+    "middleLetter": 0,
+    "level": 7,
+    "coin": 700
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/book2.jpg",
+      "color": 9163794,
+      "length": 4,
+      "fill": 4,
+      "name": "book"
+    },
+    "right": {
+      "imageUrl": "assets/images/king.jpg",
+      "color": 16753920,
+      "length": 4,
+      "fill": 4,
+      "name": "king"
+    },
+    "description": "reserving ticket",
+    "word": "BOOKING",
+    "letters": ["K", "N", "V", "G", "Y", "H", "B", "I", "S", "O", "Z", "M", "U"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 3,
+    "rightLetter": 3,
+    "middleLetter": 1,
+    "level": 8,
+    "coin": 800
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/car_origin.webp",
+      "color": 16776960,
+      "length": 3,
+      "fill": 3,
+      "name": "car"
+    },
+    "right": {
+      "imageUrl": "assets/images/bone_or.png",
+      "color": 255,
+      "length": 4,
+      "fill": 4,
+      "name": "bone"
+    },
+    "description": "element, organic, foundation",
+    "word": "CARBONE",
+    "letters": ["R", "A", "N", "O", "B", "E", "C"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 3,
+    "rightLetter": 4,
+    "middleLetter": 0,
+    "level": 9,
+    "coin": 900
+  },
+  {
+    "left": {
+      "imageUrl": "assets/images/flag.jpg",
+      "color": 16711680,
+      "length": 4,
+      "fill": 4,
+      "name": "flag"
+    },
+    "right": {
+      "imageUrl": "assets/images/ship.jpg",
+      "color": 16776960,
+      "length": 4,
+      "fill": 4,
+      "name": "ship"
+    },
+    "description": "best, most promoted product",
+    "word": "FLAGSHIP",
+    "letters": ["H", "S", "P", "L", "F", "A", "G", "I"],
+    "imageUrl": "some_image_url",
+    "leftLetter": 4,
+    "rightLetter": 4,
+    "middleLetter": 0,
+    "level": 10,
+    "coin": 1000
+  }
+]
