@@ -47,6 +47,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,49 +84,59 @@ class _HomeState extends State<Home> {
                   ),
                   SizedBox(height: 50),
                   _descriptionContainer(),
-                  Container(
-                    width: double.infinity,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey,
-                          blurRadius: 15,
-                          offset: Offset(10, 8),
-                        ),
-                      ],
-                      border: Border(
-                        bottom: BorderSide(color: Color(0xFF5A6E82), width: 3),
-                      ),
-                      color: Color(0xFF8296AA),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: dragLetters.map((drag)=> Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 8),
-                        child: DragTarget(
-                          builder: (context, candidateData, rejectedData){
-                          return Container(
-                            width: 40,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius: BorderRadius.circular(8)
-                            ),
-                          );
-                         }
-                        ),
-                      )
-                      ).toList(),
-                    ),
-                  ),
+                  _optionsContainer(dragLetters),
                   SizedBox(height: 30),
                   MyWrap(letters: letters)
                 ],
               ),
             );
           }),
+    );
+  }
+
+  Container _optionsContainer(List<String> dragLetters) {
+    return Container(
+      width: double.infinity,
+      height: 90,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 15,
+            offset: Offset(10, 8),
+          ),
+        ],
+        border: Border(
+          bottom: BorderSide(color: Color(0xFF5A6E82), width: 3),
+        ),
+        color: Color(0xFF8296AA),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: dragLetters
+            .map((drag) =>
+                 Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  child: DragTarget<String>(
+                    onAcceptWithDetails: (details){
+                      setState(() {
+
+                      });
+                    },
+                      builder: (context, candidateData, rejectedData) {
+                    return Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(8)),
+
+                    );
+                  }),
+                ))
+            .toList(),
+      ),
     );
   }
 

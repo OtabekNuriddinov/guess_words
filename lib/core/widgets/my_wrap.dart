@@ -19,7 +19,11 @@ class MyWrap extends StatelessWidget {
           .map((letter) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4),
         child: Draggable(
-          feedback: _myContainer(letter),
+          data: letter,
+          childWhenDragging: _myContainer(""),
+          feedback: Material(
+            borderRadius: BorderRadius.circular(8),
+              child: _myContainer(letter)),
           child: _myContainer(letter),
         ),
       ))
