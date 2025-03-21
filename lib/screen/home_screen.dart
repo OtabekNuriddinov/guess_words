@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guess_words/core/theme/dimens.dart';
 import 'package:guess_words/core/theme/icons.dart';
 import 'package:guess_words/core/theme/strings.dart';
 import 'package:guess_words/core/theme/text_styles.dart';
@@ -23,6 +24,9 @@ class _HomeState extends State<Home> {
   late Future<void> _dataFuture;
   GameData? currentQuestion;
 
+
+  List<String?> placedLetters = [];
+
   @override
   void initState() {
     super.initState();
@@ -33,7 +37,16 @@ class _HomeState extends State<Home> {
   Future<void> _loadData() async {
     await appService.initialize();
     if (appService.items.isNotEmpty) {
-      currentQuestion = appService.items.first;
+      setState(() {
+        currentQuestion = appService.items.first;
+        _initializeLetters();
+      });
+    }
+  }
+
+  void _initializeLetters() {
+    if (currentQuestion != null) {
+      placedLetters = List.filled(currentQuestion!.word.length, null);
     }
   }
 
@@ -43,10 +56,10 @@ class _HomeState extends State<Home> {
         sanoq++;
         level++;
         currentQuestion = appService.items[sanoq];
+        _initializeLetters();
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -62,35 +75,40 @@ class _HomeState extends State<Home> {
             }
             List<String> letters = currentQuestion!.letters;
             List<String> dragLetters = currentQuestion!.word.split("");
+
             return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+              padding: AppDimens.p3010,
               child: Column(
                 children: [
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                            child: MyContainer(
-                                image: currentQuestion!.left.imageUrl,
-                                color: currentQuestion!.left.color)),
-                        SizedBox(width: 5),
-                        Expanded(
-                            child: MyContainer(
-                                image: currentQuestion!.right.imageUrl,
-                                color: currentQuestion!.right.color))
-                      ],
-                    ),
-                  ),
+                  _imageRow(),
                   SizedBox(height: 50),
                   _descriptionContainer(),
                   _optionsContainer(dragLetters),
                   SizedBox(height: 30),
-                  MyWrap(letters: letters)
+                  MyWrap(letters: letters),
                 ],
               ),
             );
           }),
+    );
+  }
+
+  Widget _imageRow() {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+              child: MyContainer(
+                  image: currentQuestion!.left.imageUrl,
+                  color: currentQuestion!.left.color)),
+          SizedBox(width: 5),
+          Expanded(
+              child: MyContainer(
+                  image: currentQuestion!.right.imageUrl,
+                  color: currentQuestion!.right.color))
+        ],
+      ),
     );
   }
 
@@ -114,28 +132,37 @@ class _HomeState extends State<Home> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: dragLetters
-            .map((drag) =>
-                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  child: DragTarget<String>(
-                    onAcceptWithDetails: (details){
-                      setState(() {
-
-                      });
-                    },
-                      builder: (context, candidateData, rejectedData) {
-                    return Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                          color: AppColors.white,
-                          borderRadius: BorderRadius.circular(8)),
-
-                    );
-                  }),
-                ))
-            .toList(),
+        children: List.generate(dragLetters.length, (index) {
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: DragTarget<String>(
+                onAcceptWithDetails: (details) {
+                  setState(() {
+                    placedLetters = placedLetters.map((e) => e == details.data ? null : e).toList();
+                    placedLetters[index] = details.data;
+                  });
+                },
+                onWillAcceptWithDetails: (details){
+                  return !placedLetters.contains(details.data);
+                },
+                builder: (context, candidateData, rejectedData) {
+                  return Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: placedLetters[index] == null ? AppColors.white : Color(0xFF8296AA),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Text(
+                        placedLetters[index] ?? "",
+                        style: AppTextStyles.cube,
+                      ),
+                    ),
+                  );
+                }),
+          );
+        }),
       ),
     );
   }
@@ -168,6 +195,7 @@ class _HomeState extends State<Home> {
   FloatingActionButton _floatingActionButton() {
     return FloatingActionButton(
       onPressed: nextQuestion,
+      child: Icon(Icons.arrow_forward),
     );
   }
 
