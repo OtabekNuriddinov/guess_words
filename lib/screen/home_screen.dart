@@ -8,6 +8,7 @@ import 'package:guess_words/models/charade.dart';
 import 'package:guess_words/services/app_service.dart';
 import '../core/widgets/my_wrap.dart';
 import '/core/theme/colors.dart';
+import 'package:lottie/lottie.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -23,8 +24,9 @@ class _HomeState extends State<Home> {
   late List<GameData> questions;
   late Future<void> _dataFuture;
   GameData? currentQuestion;
+  String animationPath = "assets/animation/well_anim.json";
 
-
+  bool isChecked = false;
   List<String?> placedLetters = [];
 
   @override
@@ -57,6 +59,7 @@ class _HomeState extends State<Home> {
         level++;
         currentQuestion = appService.items[sanoq];
         _initializeLetters();
+        isChecked = false;
       }
     });
   }
@@ -83,7 +86,7 @@ class _HomeState extends State<Home> {
                   _imageRow(),
                   SizedBox(height: 50),
                   _descriptionContainer(),
-                  _optionsContainer(dragLetters),
+                  _optionsContainer(dragLetters, currentQuestion!.word),
                   SizedBox(height: 30),
                   MyWrap(letters: letters),
                 ],
@@ -112,7 +115,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  Container _optionsContainer(List<String> dragLetters) {
+  Container _optionsContainer(List<String> dragLetters, String word) {
     return Container(
       width: double.infinity,
       height: 90,
@@ -138,8 +141,10 @@ class _HomeState extends State<Home> {
             child: DragTarget<String>(
                 onAcceptWithDetails: (details) {
                   setState(() {
-                    placedLetters = placedLetters.map((e) => e == details.data ? null : e).toList();
                     placedLetters[index] = details.data;
+                    if(placedLetters.join("")==word){
+                      isChecked = true;
+                    }
                   });
                 },
                 onWillAcceptWithDetails: (details){
@@ -153,11 +158,24 @@ class _HomeState extends State<Home> {
                       color: placedLetters[index] == null ? AppColors.white : Color(0xFF8296AA),
                       borderRadius: BorderRadius.circular(8),
                     ),
-                    child: Center(
-                      child: Text(
-                        placedLetters[index] ?? "",
-                        style: AppTextStyles.cube,
+                    child: Stack(
+                      children: [
+                        Center(
+                        child: Text(
+                          placedLetters[index] ?? "",
+                          style: AppTextStyles.cube,
+                        ),
                       ),
+                        if(isChecked)
+                          Align(
+                            alignment: Alignment(0, -0.3),
+                            child: SizedBox(
+                              width: AppDimens.d310,
+                              height: AppDimens.d170,
+                              child: Lottie.asset(animationPath, fit: BoxFit.cover),
+                            ),
+                          )
+                  ]
                     ),
                   );
                 }),
@@ -180,10 +198,7 @@ class _HomeState extends State<Home> {
           ),
         ],
         border: Border(bottom: BorderSide(color: Color(0xFF5A6E82), width: 3)),
-        borderRadius: BorderRadius.vertical(
-          top: Radius.circular(10),
-          bottom: Radius.circular(5),
-        ),
+        borderRadius: AppDimens.v105,
         color: Color(0xFF8296AA),
       ),
       child: Center(
