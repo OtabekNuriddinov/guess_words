@@ -4,4 +4,5 @@ import 'package:guess_words/core/theme/colors.dart';
 sealed class AppIcons{
 
   static Icon menu = Icon(Icons.menu, color: AppColors.black);
+  static Icon replay = Icon(Icons.replay, color: AppColors.black);
 }

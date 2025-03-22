@@ -3,13 +3,14 @@ import 'package:guess_words/core/theme/dimens.dart';
 import 'package:guess_words/core/theme/icons.dart';
 import 'package:guess_words/core/theme/strings.dart';
 import 'package:guess_words/core/theme/text_styles.dart';
-import 'package:guess_words/core/widgets/my_container.dart';
+import 'package:guess_words/core/utils/app_dialog.dart';
 import 'package:guess_words/models/charade.dart';
 import 'package:guess_words/services/app_service.dart';
 import '../core/widgets/my_image_container.dart';
 import '../core/widgets/my_wrap.dart';
 import '/core/theme/colors.dart';
 import 'package:lottie/lottie.dart';
+import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -19,15 +20,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int level = 1;
   late AppService appService;
-  int sanoq = 0;
-  late List<GameData> questions;
   late Future<void> _dataFuture;
-  GameData? currentQuestion;
   String animationPath = "assets/animation/well_anim.json";
 
+  late List<GameData> questions;
+  GameData? currentQuestion;
+  int level = 1;
+  int sanoq = 0;
   bool isChecked = false;
+
+  /// kerak bo'ladigan listlar
   List<String?> placedLetters = [];
   List<String> leftLetters = [];
   List<String> rightLetters = [];
@@ -35,6 +38,7 @@ class _HomeState extends State<Home> {
   List<Color> rightSpaceColors = [];
   List<Color> middleSpaceColors = [];
   List originalList = [];
+  List<String>letters = [];
 
   @override
   void initState() {
@@ -55,13 +59,27 @@ class _HomeState extends State<Home> {
             if (appService.items.isEmpty) {
               return Center(child: CircularProgressIndicator());
             }
-            List<String> letters = currentQuestion!.letters;
+            letters = currentQuestion!.letters;
             List<String> dragLetters = currentQuestion!.word.split("");
             return Padding(
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 children: [
-                  MyImageContainer(currentQuestion: currentQuestion, leftLetters: leftLetters, rightLetters: rightLetters),
+                  Stack(children: [
+                    MyImageContainer(
+                        currentQuestion: currentQuestion,
+                        leftLetters: leftLetters,
+                        rightLetters: rightLetters),
+                    if(isChecked)
+                      Align(
+                        alignment: const Alignment(0, -0.3),
+                        child: SizedBox(
+                          width: AppDimens.d310,
+                          height: AppDimens.d170,
+                          child: Lottie.asset("assets/animation/well_anim.json", fit: BoxFit.cover),
+                        ),
+                      ),
+                  ]),
                   AppDimens.h30,
                   _descriptionContainer(),
                   _optionsContainer(
@@ -106,8 +124,13 @@ class _HomeState extends State<Home> {
             child: DragTarget<String>(onAcceptWithDetails: (details) {
               setState(() {
                 placedLetters[index] = details.data;
-                if (placedLetters.join("") == word) {
-                  isChecked = true;
+                if (!placedLetters.contains(null)) {
+                  if (placedLetters.join("") == word) {
+                    isChecked = true;
+                  } else {
+                    letters.shuffle();
+                    replay();
+                  }
                 }
               });
             }, onWillAcceptWithDetails: (details) {
@@ -128,23 +151,12 @@ class _HomeState extends State<Home> {
                   color: originalList[index],
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Stack(children: [
-                  Center(
-                    child: Text(
-                      placedLetters[index] ?? "",
-                      style: AppTextStyles.cube,
-                    ),
+                child: Center(
+                  child: Text(
+                    placedLetters[index] ?? "",
+                    style: AppTextStyles.cube,
                   ),
-                  if (isChecked)
-                    Align(
-                      alignment: Alignment(0, -0.3),
-                      child: SizedBox(
-                        width: AppDimens.d310,
-                        height: AppDimens.d170,
-                        child: Lottie.asset(animationPath, fit: BoxFit.cover),
-                      ),
-                    )
-                ]),
+                ),
               );
             }),
           );
@@ -217,11 +229,22 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
-      actions: [IconButton(onPressed: () {}, icon: AppIcons.menu)],
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: IconButton(onPressed: replay, icon: AppIcons.replay),
+        )
+      ],
     );
   }
 
-
+  void replay() {
+    setState(() {
+      isChecked = false;
+      placedLetters = List.filled(originalList.length, null);
+      letters.shuffle();
+    });
+  }
 
   Future<void> _loadData() async {
     await appService.initialize();
@@ -239,9 +262,9 @@ class _HomeState extends State<Home> {
     rightLetters = currentQuestion!.right.name.split("");
 
     leftSpaceColors = List.generate(currentQuestion!.leftLetter,
-            (index) => AppService.getColorFromInt(currentQuestion!.left.color));
+        (index) => AppService.getColorFromInt(currentQuestion!.left.color));
     rightSpaceColors = List.generate(currentQuestion!.rightLetter,
-            (index) => AppService.getColorFromInt(currentQuestion!.right.color));
+        (index) => AppService.getColorFromInt(currentQuestion!.right.color));
 
     middleSpaceColors = List.generate(
         currentQuestion!.middleLetter, (index) => AppColors.white);
@@ -266,5 +289,3 @@ class _HomeState extends State<Home> {
     });
   }
 }
-
-

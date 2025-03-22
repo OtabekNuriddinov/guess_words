@@ -9,7 +9,6 @@ class MyWrap extends StatelessWidget {
 
   final List<String> letters;
 
-
   @override
   Widget build(BuildContext context) {
     return Wrap(
