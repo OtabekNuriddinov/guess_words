@@ -6,6 +6,8 @@ sealed class AppDimens{
 
   static BorderRadius v105 = BorderRadius.vertical(top: Radius.circular(10), bottom: Radius.circular(5));
 
+  static SizedBox h30 = SizedBox(height: 30);
+
 
   static const d310 = 310.0;
   static const d170 = 170.0;

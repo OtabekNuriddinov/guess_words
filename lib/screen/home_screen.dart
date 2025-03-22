@@ -6,6 +6,7 @@ import 'package:guess_words/core/theme/text_styles.dart';
 import 'package:guess_words/core/widgets/my_container.dart';
 import 'package:guess_words/models/charade.dart';
 import 'package:guess_words/services/app_service.dart';
+import '../core/widgets/my_image_container.dart';
 import '../core/widgets/my_wrap.dart';
 import '/core/theme/colors.dart';
 import 'package:lottie/lottie.dart';
@@ -60,8 +61,8 @@ class _HomeState extends State<Home> {
               padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 children: [
-                  _imageRow(),
-                  SizedBox(height: 30),
+                  MyImageContainer(currentQuestion: currentQuestion, leftLetters: leftLetters, rightLetters: rightLetters),
+                  AppDimens.h30,
                   _descriptionContainer(),
                   _optionsContainer(
                     dragLetters,
@@ -69,37 +70,12 @@ class _HomeState extends State<Home> {
                     AppService.getColorFromInt(currentQuestion!.left.color),
                     AppService.getColorFromInt(currentQuestion!.right.color),
                   ),
-                  SizedBox(height: 30),
+                  AppDimens.h30,
                   MyWrap(letters: letters),
                 ],
               ),
             );
           }),
-    );
-  }
-
-  Widget _imageRow() {
-    return Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Expanded(
-            child: MyContainer(
-              image: currentQuestion!.left.imageUrl,
-              color: currentQuestion!.left.color,
-              letters: leftLetters,
-            ),
-          ),
-          SizedBox(width: 5),
-          Expanded(
-            child: MyContainer(
-              image: currentQuestion!.right.imageUrl,
-              color: currentQuestion!.right.color,
-              letters: rightLetters,
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -289,5 +265,6 @@ class _HomeState extends State<Home> {
       }
     });
   }
-
 }
+
+
