@@ -19,7 +19,7 @@
     "letters": ["O", "L", "W", "B"],
     "imageUrl": "some_image_url",
     "leftLetter": 1,
-    "rightLetter": 3,
+    "rightLetter": 1,
     "middleLetter": 2,
     "level": 1,
     "coin": 100
@@ -70,7 +70,7 @@
     "letters": ["N", "P", "A", "T"],
     "imageUrl": "some_image_url",
     "leftLetter": 1,
-    "rightLetter": 3,
+    "rightLetter": 1,
     "middleLetter": 2,
     "level": 3,
     "coin": 300
@@ -95,7 +95,7 @@
     "letters": ["T", "R", "A", "E"],
     "imageUrl": "some_image_url",
     "leftLetter": 1,
-    "rightLetter": 3,
+    "rightLetter": 1,
     "middleLetter": 2,
     "level": 4,
     "coin": 400

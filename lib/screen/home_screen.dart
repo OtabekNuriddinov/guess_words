@@ -28,40 +28,18 @@ class _HomeState extends State<Home> {
 
   bool isChecked = false;
   List<String?> placedLetters = [];
+  List<String> leftLetters = [];
+  List<String> rightLetters = [];
+  List<Color> leftSpaceColors = [];
+  List<Color> rightSpaceColors = [];
+  List<Color> middleSpaceColors = [];
+  List originalList = [];
 
   @override
   void initState() {
     super.initState();
     appService = AppService();
     _dataFuture = _loadData();
-  }
-
-  Future<void> _loadData() async {
-    await appService.initialize();
-    if (appService.items.isNotEmpty) {
-      setState(() {
-        currentQuestion = appService.items.first;
-        _initializeLetters();
-      });
-    }
-  }
-
-  void _initializeLetters() {
-    if (currentQuestion != null) {
-      placedLetters = List.filled(currentQuestion!.word.length, null);
-    }
-  }
-
-  void nextQuestion() {
-    setState(() {
-      if (sanoq < appService.items.length - 1) {
-        sanoq++;
-        level++;
-        currentQuestion = appService.items[sanoq];
-        _initializeLetters();
-        isChecked = false;
-      }
-    });
   }
 
   @override
@@ -78,15 +56,19 @@ class _HomeState extends State<Home> {
             }
             List<String> letters = currentQuestion!.letters;
             List<String> dragLetters = currentQuestion!.word.split("");
-
             return Padding(
-              padding: AppDimens.p3010,
+              padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               child: Column(
                 children: [
                   _imageRow(),
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
                   _descriptionContainer(),
-                  _optionsContainer(dragLetters, currentQuestion!.word),
+                  _optionsContainer(
+                    dragLetters,
+                    currentQuestion!.word,
+                    AppService.getColorFromInt(currentQuestion!.left.color),
+                    AppService.getColorFromInt(currentQuestion!.right.color),
+                  ),
                   SizedBox(height: 30),
                   MyWrap(letters: letters),
                 ],
@@ -102,20 +84,27 @@ class _HomeState extends State<Home> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Expanded(
-              child: MyContainer(
-                  image: currentQuestion!.left.imageUrl,
-                  color: currentQuestion!.left.color)),
+            child: MyContainer(
+              image: currentQuestion!.left.imageUrl,
+              color: currentQuestion!.left.color,
+              letters: leftLetters,
+            ),
+          ),
           SizedBox(width: 5),
           Expanded(
-              child: MyContainer(
-                  image: currentQuestion!.right.imageUrl,
-                  color: currentQuestion!.right.color))
+            child: MyContainer(
+              image: currentQuestion!.right.imageUrl,
+              color: currentQuestion!.right.color,
+              letters: rightLetters,
+            ),
+          )
         ],
       ),
     );
   }
 
-  Container _optionsContainer(List<String> dragLetters, String word) {
+  Container _optionsContainer(List<String> dragLetters, String word,
+      Color currentLeft, Color currentRight) {
     return Container(
       width: double.infinity,
       height: 90,
@@ -138,47 +127,50 @@ class _HomeState extends State<Home> {
         children: List.generate(dragLetters.length, (index) {
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            child: DragTarget<String>(
-                onAcceptWithDetails: (details) {
-                  setState(() {
-                    placedLetters[index] = details.data;
-                    if(placedLetters.join("")==word){
-                      isChecked = true;
-                    }
-                  });
-                },
-                onWillAcceptWithDetails: (details){
-                  return !placedLetters.contains(details.data);
-                },
-                builder: (context, candidateData, rejectedData) {
-                  return Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      color: placedLetters[index] == null ? AppColors.white : Color(0xFF8296AA),
-                      borderRadius: BorderRadius.circular(8),
+            child: DragTarget<String>(onAcceptWithDetails: (details) {
+              setState(() {
+                placedLetters[index] = details.data;
+                if (placedLetters.join("") == word) {
+                  isChecked = true;
+                }
+              });
+            }, onWillAcceptWithDetails: (details) {
+              return !placedLetters.contains(details.data);
+            }, builder: (context, candidateData, rejectedData) {
+              return Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  gradient: (index >= leftSpaceColors.length &&
+                          index <
+                              leftSpaceColors.length + middleSpaceColors.length)
+                      ? LinearGradient(
+                          colors: [currentLeft, currentRight],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)
+                      : null,
+                  color: originalList[index],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Stack(children: [
+                  Center(
+                    child: Text(
+                      placedLetters[index] ?? "",
+                      style: AppTextStyles.cube,
                     ),
-                    child: Stack(
-                      children: [
-                        Center(
-                        child: Text(
-                          placedLetters[index] ?? "",
-                          style: AppTextStyles.cube,
-                        ),
+                  ),
+                  if (isChecked)
+                    Align(
+                      alignment: Alignment(0, -0.3),
+                      child: SizedBox(
+                        width: AppDimens.d310,
+                        height: AppDimens.d170,
+                        child: Lottie.asset(animationPath, fit: BoxFit.cover),
                       ),
-                        if(isChecked)
-                          Align(
-                            alignment: Alignment(0, -0.3),
-                            child: SizedBox(
-                              width: AppDimens.d310,
-                              height: AppDimens.d170,
-                              child: Lottie.asset(animationPath, fit: BoxFit.cover),
-                            ),
-                          )
-                  ]
-                    ),
-                  );
-                }),
+                    )
+                ]),
+              );
+            }),
           );
         }),
       ),
@@ -252,4 +244,50 @@ class _HomeState extends State<Home> {
       actions: [IconButton(onPressed: () {}, icon: AppIcons.menu)],
     );
   }
+
+
+
+  Future<void> _loadData() async {
+    await appService.initialize();
+    if (appService.items.isNotEmpty) {
+      setState(() {
+        currentQuestion = appService.items.first;
+        _initializeLetters();
+      });
+    }
+  }
+
+  void _initializeLetters() {
+    if (currentQuestion == null) return;
+    leftLetters = currentQuestion!.left.name.split("");
+    rightLetters = currentQuestion!.right.name.split("");
+
+    leftSpaceColors = List.generate(currentQuestion!.leftLetter,
+            (index) => AppService.getColorFromInt(currentQuestion!.left.color));
+    rightSpaceColors = List.generate(currentQuestion!.rightLetter,
+            (index) => AppService.getColorFromInt(currentQuestion!.right.color));
+
+    middleSpaceColors = List.generate(
+        currentQuestion!.middleLetter, (index) => AppColors.white);
+
+    originalList = [
+      ...leftSpaceColors,
+      ...middleSpaceColors,
+      ...rightSpaceColors
+    ];
+    placedLetters = List.filled(originalList.length, null);
+  }
+
+  void nextQuestion() {
+    setState(() {
+      if (sanoq < appService.items.length - 1) {
+        sanoq++;
+        level++;
+        currentQuestion = appService.items[sanoq];
+        _initializeLetters();
+        isChecked = false;
+      }
+    });
+  }
+
 }

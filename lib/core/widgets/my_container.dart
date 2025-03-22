@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:guess_words/core/theme/colors.dart';
 
 class MyContainer extends StatelessWidget {
   final String image;
   final int color;
+  final List<String>letters;
   const MyContainer({
     required this.image,
     required this.color,
+    required this.letters,
     super.key,
   });
 
@@ -67,7 +70,29 @@ class MyContainer extends StatelessWidget {
                               ),
                               color: getColorFromInt(color),
                             ),
-                          ),
+                           child: Center(
+                             child: Row(
+                               mainAxisAlignment: MainAxisAlignment.center,
+                               children: letters.map((item){
+                                 return Container(
+                                   height: 20,
+                                   color: AppColors.white,
+                                   child: Padding(
+                                       padding: EdgeInsets.symmetric(horizontal: 8),
+                                     child: Container(
+                                       width: 8,
+                                       height: 8,
+                                       decoration: BoxDecoration(
+                                         shape: BoxShape.circle,
+                                         color: getColorFromInt(color),
+                                       ),
+                                     ),
+                                   ),
+                                 );
+                               }).toList()
+                             ),
+                             ),
+                           ),
                       ],
                     ),
                 ),
