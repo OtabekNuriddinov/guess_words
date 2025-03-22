@@ -3,9 +3,9 @@ import 'package:guess_words/core/theme/dimens.dart';
 import 'package:guess_words/core/theme/icons.dart';
 import 'package:guess_words/core/theme/strings.dart';
 import 'package:guess_words/core/theme/text_styles.dart';
-import 'package:guess_words/core/utils/app_dialog.dart';
 import 'package:guess_words/models/charade.dart';
 import 'package:guess_words/services/app_service.dart';
+import 'package:just_audio/just_audio.dart';
 import '../core/widgets/my_image_container.dart';
 import '../core/widgets/my_wrap.dart';
 import '/core/theme/colors.dart';
@@ -39,6 +39,8 @@ class _HomeState extends State<Home> {
   List<Color> middleSpaceColors = [];
   List originalList = [];
   List<String>letters = [];
+
+
 
   @override
   void initState() {
@@ -127,9 +129,11 @@ class _HomeState extends State<Home> {
                 if (!placedLetters.contains(null)) {
                   if (placedLetters.join("") == word) {
                     isChecked = true;
+                    AppService.playWin();
                   } else {
-                    letters.shuffle();
+                    AppService.playWrong();
                     replay();
+                    letters.shuffle();
                   }
                 }
               });
@@ -288,4 +292,6 @@ class _HomeState extends State<Home> {
       }
     });
   }
+
+
 }
