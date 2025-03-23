@@ -13,14 +13,7 @@ sealed class AppDialog {
             content: SingleChildScrollView(
               child: Stack(
                 children: [
-                  Align(
-                    alignment: const Alignment(0, -0.3),
-                    child: SizedBox(
-                      width: AppDimens.d310,
-                      height: AppDimens.d170,
-                      child: Lottie.asset("assets/animation/well_anim.json", fit: BoxFit.cover),
-                    ),
-                  ),
+
                 ],
               )
             ),

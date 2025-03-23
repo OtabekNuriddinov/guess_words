@@ -54,7 +54,6 @@ class _HomeState extends State<Home> {
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: _appBar(),
-      floatingActionButton: _floatingActionButton(),
       body: FutureBuilder<void>(
           future: _dataFuture,
           builder: (context, _) {
@@ -86,7 +85,7 @@ class _HomeState extends State<Home> {
                   _descriptionContainer(),
                   _optionsContainer(
                     dragLetters,
-                    currentQuestion!.word,
+                    currentQuestion!.word.toUpperCase(),
                     AppService.getColorFromInt(currentQuestion!.left.color),
                     AppService.getColorFromInt(currentQuestion!.right.color),
                   ),
@@ -130,6 +129,22 @@ class _HomeState extends State<Home> {
                   if (placedLetters.join("") == word) {
                     isChecked = true;
                     AppService.playWin();
+                    Future.delayed(Duration(seconds: 5), (){
+                      showDialog(
+                          context: context,
+                          builder: (context){
+                            return AlertDialog(
+                              title: Text("Do you want to go next level?"),
+                              actions: <Widget>[
+                                TextButton(onPressed: () {
+                                  Navigator.pop(context);
+                                  nextQuestion();
+                                }, child: Text("Next"))
+                              ],
+                            );
+                          });
+                    });
+
                   } else {
                     AppService.playWrong();
                     replay();
@@ -191,12 +206,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  FloatingActionButton _floatingActionButton() {
-    return FloatingActionButton(
-      onPressed: nextQuestion,
-      child: Icon(Icons.arrow_forward),
-    );
-  }
+  // FloatingActionButton _floatingActionButton() {
+  //   return FloatingActionButton(
+  //     onPressed: nextQuestion,
+  //     child: Icon(Icons.arrow_forward),
+  //   );
+  // }
 
   AppBar _appBar() {
     return AppBar(
