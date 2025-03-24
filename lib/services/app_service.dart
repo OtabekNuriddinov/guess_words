@@ -4,8 +4,6 @@ import 'package:guess_words/models/charade.dart';
 import 'package:guess_words/services/data_source.dart';
 import 'package:just_audio/just_audio.dart';
 
-
-
 class AppService{
 
   AppService._();
@@ -42,7 +40,6 @@ class AppService{
       print("Error: $e");
     }
   }
-
 
   static Color getColorFromInt(int colorValue) {
     return Color(0xFF000000 | colorValue);

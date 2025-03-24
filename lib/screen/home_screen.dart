@@ -38,9 +38,7 @@ class _HomeState extends State<Home> {
   List<Color> rightSpaceColors = [];
   List<Color> middleSpaceColors = [];
   List originalList = [];
-  List<String>letters = [];
-
-
+  List<String> letters = [];
 
   @override
   void initState() {
@@ -52,6 +50,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _floatingActionButton(),
       backgroundColor: AppColors.white,
       appBar: _appBar(),
       body: FutureBuilder<void>(
@@ -71,13 +70,14 @@ class _HomeState extends State<Home> {
                         currentQuestion: currentQuestion,
                         leftLetters: leftLetters,
                         rightLetters: rightLetters),
-                    if(isChecked)
+                    if (isChecked)
                       Align(
                         alignment: const Alignment(0, -0.3),
                         child: SizedBox(
                           width: AppDimens.d310,
                           height: AppDimens.d170,
-                          child: Lottie.asset("assets/animation/well_anim.json", fit: BoxFit.cover),
+                          child: Lottie.asset("assets/animation/well_anim.json",
+                              fit: BoxFit.cover),
                         ),
                       ),
                   ]),
@@ -127,24 +127,12 @@ class _HomeState extends State<Home> {
                 placedLetters[index] = details.data;
                 if (!placedLetters.contains(null)) {
                   if (placedLetters.join("") == word) {
+                    print(word);
                     isChecked = true;
                     AppService.playWin();
-                    Future.delayed(Duration(seconds: 5), (){
-                      showDialog(
-                          context: context,
-                          builder: (context){
-                            return AlertDialog(
-                              title: Text("Do you want to go next level?"),
-                              actions: <Widget>[
-                                TextButton(onPressed: () {
-                                  Navigator.pop(context);
-                                  nextQuestion();
-                                }, child: Text("Next"))
-                              ],
-                            );
-                          });
+                    Future.delayed(Duration(seconds: 5), () {
+                      _showDialog();
                     });
-
                   } else {
                     AppService.playWrong();
                     replay();
@@ -184,6 +172,24 @@ class _HomeState extends State<Home> {
     );
   }
 
+  Future<dynamic> _showDialog() {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Do you want to go next level?"),
+            actions: <Widget>[
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    nextQuestion();
+                  },
+                  child: Text("Next"))
+            ],
+          );
+        });
+  }
+
   Container _descriptionContainer() {
     return Container(
       width: double.infinity,
@@ -206,12 +212,12 @@ class _HomeState extends State<Home> {
     );
   }
 
-  // FloatingActionButton _floatingActionButton() {
-  //   return FloatingActionButton(
-  //     onPressed: nextQuestion,
-  //     child: Icon(Icons.arrow_forward),
-  //   );
-  // }
+  FloatingActionButton _floatingActionButton() {
+    return FloatingActionButton(
+      onPressed: nextQuestion,
+      child: Icon(Icons.arrow_forward),
+    );
+  }
 
   AppBar _appBar() {
     return AppBar(
@@ -307,6 +313,4 @@ class _HomeState extends State<Home> {
       }
     });
   }
-
-
 }
