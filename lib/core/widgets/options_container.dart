@@ -45,9 +45,8 @@ class OptionsContainer extends StatelessWidget {
             child: DragTarget<String>(
                 onAcceptWithDetails: (details) {
                   onAccept(details.data, index);
-                }, onWillAcceptWithDetails: (details) {
-              return !placedLetters.contains(details.data);
-            }, builder: (context, candidateData, rejectedData) {
+                },
+                builder: (context, candidateData, rejectedData) {
               return Container(
                 width: AppDimens.d40,
                 height: AppDimens.d40,

@@ -111,21 +111,7 @@ class _HomeState extends State<Home> {
                           if(placedLetters[index]==null){
                             placedLetters[index] = data;
                           }
-                          if (!placedLetters.contains(null)) {
-                            if (placedLetters.join("") == currentQuestion!.word) {
-                              isChecked = true;
-                              AppService.playWin();
-                              Future.delayed(Duration(seconds: 5), () {
-                                if(mounted) {
-                                  AppDialog.showMyDialog("", nextQuestion, context);
-                                }
-                              });
-                            } else {
-                              AppService.playWrong();
-                              replay();
-                              letters.shuffle();
-                            }
-                          }
+                          checking();
                         });
                       },
                   ),
@@ -137,7 +123,6 @@ class _HomeState extends State<Home> {
           }),
     );
   }
-
 
   FloatingActionButton _floatingActionButton() {
     return FloatingActionButton(
@@ -193,9 +178,37 @@ class _HomeState extends State<Home> {
   void replay() {
     setState(() {
       isChecked = false;
-      placedLetters = List.filled(originalList.length, null);
+      placedLetters = List.of(List.filled(originalList.length, null));
       letters.shuffle();
+      currentQuestion = appService.items[sanoq];
+
     });
+  }
+
+  void checking(){
+    if (!placedLetters.contains(null)) {
+      if (placedLetters.join("") == currentQuestion!.word) {
+        isChecked = true;
+        AppService.playWin();
+        Future.delayed(Duration(seconds: 5), () {
+          if(mounted) {
+            AppDialog.showMyDialog(
+              currentQuestion!.imageUrl,
+              nextQuestion,
+              currentQuestion!.word,
+                  (){
+                AppService.initializeLetters(currentQuestion, leftLetters, rightLetters, leftSpaceColors, rightSpaceColors, middleSpaceColors, originalList, placedLetters);
+              },
+              context,
+            );
+          }
+        });
+      } else {
+        AppService.playWrong();
+        replay();
+        letters.shuffle();
+      }
+    }
   }
 
   void nextQuestion() {
