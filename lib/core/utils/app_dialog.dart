@@ -1,24 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-
-import '../theme/dimens.dart';
 
 sealed class AppDialog {
-  static Future<void> alertDlg(BuildContext context, String title) async {
+  static Future<dynamic> showMyDialog(String image, void Function()nextLevel, BuildContext context){
     return showDialog(
         context: context,
-        builder: (BuildContext context) {
+        builder: (context) {
           return AlertDialog(
-            title: Text(title),
-            content: SingleChildScrollView(
-              child: Stack(
-                children: [
-
-                ],
-              )
-            ),
+            title: Text("Do you want to go next level?"),
             actions: <Widget>[
-              TextButton(onPressed: () {}, child: Text("Next"))
+              TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    nextLevel();
+                  },
+                  child: Text("Next"))
             ],
           );
         });

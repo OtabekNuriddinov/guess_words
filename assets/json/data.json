@@ -45,7 +45,7 @@
     "imageUrl": "some_image_url",
     "leftLetter": 1,
     "rightLetter": 3,
-    "middleLetter": 2,
+    "middleLetter": 0,
     "level": 2,
     "coin": 200
   },
