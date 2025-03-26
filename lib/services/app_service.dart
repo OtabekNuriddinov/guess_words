@@ -1,7 +1,7 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
-import 'package:guess_words/models/charade.dart';
-import 'package:guess_words/services/data_source.dart';
+import '/models/charade.dart';
+import '/services/data_source.dart';
 import 'package:just_audio/just_audio.dart';
 
 import '../core/theme/colors.dart';
@@ -18,6 +18,7 @@ class AppService {
     final json = await DataSource.convertor();
     _list = json.map((item) => GameData.fromJson(item)).toList();
   }
+
 
   static void initializeLetters(
     GameData? currentQuestion,
@@ -60,21 +61,21 @@ class AppService {
   }
 
   static void playWin() async {
-    AudioPlayer _audioPlayer = AudioPlayer();
+    AudioPlayer audioPlayer = AudioPlayer();
     try {
-      await _audioPlayer
+      await audioPlayer
           .setAsset("assets/sounds/you-win-sequence-2-183949.mp3");
-      _audioPlayer.play();
+      audioPlayer.play();
     } catch (e) {
       print("Error: $e");
     }
   }
 
   static void playWrong() async {
-    AudioPlayer _audioPlayer = AudioPlayer();
+    AudioPlayer audioPlayer = AudioPlayer();
     try {
-      await _audioPlayer.setAsset("assets/sounds/wrong-47985.mp3");
-      _audioPlayer.play();
+      await audioPlayer.setAsset("assets/sounds/wrong-47985.mp3");
+      audioPlayer.play();
     } catch (e) {
       print("Error: $e");
     }

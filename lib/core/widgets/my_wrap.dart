@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_words/core/theme/text_styles.dart';
+import '/core/theme/text_styles.dart';
 
 class MyWrap extends StatelessWidget {
   const MyWrap({

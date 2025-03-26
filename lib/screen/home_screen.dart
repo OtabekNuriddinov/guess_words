@@ -1,19 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:guess_words/core/theme/dimens.dart';
-import 'package:guess_words/core/theme/icons.dart';
-import 'package:guess_words/core/theme/strings.dart';
-import 'package:guess_words/core/theme/text_styles.dart';
-import 'package:guess_words/core/utils/app_dialog.dart';
-import 'package:guess_words/core/widgets/description_container.dart';
-import 'package:guess_words/core/widgets/options_container.dart';
-import 'package:guess_words/models/charade.dart';
-import 'package:guess_words/services/app_service.dart';
-import 'package:just_audio/just_audio.dart';
+import '/core/theme/dimens.dart';
+import '/core/theme/icons.dart';
+import '/core/theme/strings.dart';
+import '/core/theme/text_styles.dart';
+import '/core/utils/app_dialog.dart';
+import '/core/widgets/description_container.dart';
+import '/core/widgets/options_container.dart';
+import '/models/charade.dart';
+import '/services/app_service.dart';
 import '../core/widgets/my_image_container.dart';
 import '../core/widgets/my_wrap.dart';
 import '/core/theme/colors.dart';
 import 'package:lottie/lottie.dart';
-import 'package:flutter/services.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});

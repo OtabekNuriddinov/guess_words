@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_words/core/theme/colors.dart';
+import '/core/theme/colors.dart';
 import 'package:guess_words/services/app_service.dart';
 
 class MyContainer extends StatelessWidget {

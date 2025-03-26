@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guess_words/models/charade.dart';
+import '/models/charade.dart';
 
 import '../theme/dimens.dart';
 import '../theme/text_styles.dart';
