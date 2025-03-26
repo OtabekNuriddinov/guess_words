@@ -9,11 +9,15 @@ class MyImageContainer extends StatelessWidget {
     required this.currentQuestion,
     required this.leftLetters,
     required this.rightLetters,
+    required this.fillLeft,
+    required this.fillRight
   });
 
   final GameData? currentQuestion;
   final List<String> leftLetters;
   final List<String> rightLetters;
+  final int fillLeft;
+  final int fillRight;
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +30,7 @@ class MyImageContainer extends StatelessWidget {
               image: currentQuestion!.left.imageUrl,
               color: currentQuestion!.left.color,
               letters: leftLetters,
+              fill: fillLeft,
             ),
           ),
           SizedBox(width: 5),
@@ -34,6 +39,7 @@ class MyImageContainer extends StatelessWidget {
               image: currentQuestion!.right.imageUrl,
               color: currentQuestion!.right.color,
               letters: rightLetters,
+              fill: fillRight,
             ),
           )
         ],

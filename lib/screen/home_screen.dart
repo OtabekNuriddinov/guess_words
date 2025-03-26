@@ -82,7 +82,10 @@ class _HomeState extends State<Home> {
                     MyImageContainer(
                         currentQuestion: currentQuestion,
                         leftLetters: leftLetters,
-                        rightLetters: rightLetters),
+                        rightLetters: rightLetters,
+                        fillLeft: currentQuestion!.left.fill,
+                        fillRight: currentQuestion!.right.fill,
+                    ),
                     if (isChecked)
                       Align(
                         alignment: const Alignment(0, -0.3),
