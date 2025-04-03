@@ -30,6 +30,7 @@ class MyImageContainer extends StatelessWidget {
               image: currentQuestion!.left.imageUrl,
               color: currentQuestion!.left.color,
               letters: leftLetters,
+              length: currentQuestion!.left.length,
               fill: fillLeft,
             ),
           ),
@@ -39,6 +40,7 @@ class MyImageContainer extends StatelessWidget {
               image: currentQuestion!.right.imageUrl,
               color: currentQuestion!.right.color,
               letters: rightLetters,
+              length: currentQuestion!.right.length,
               fill: fillRight,
             ),
           )

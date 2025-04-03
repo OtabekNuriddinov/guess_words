@@ -7,11 +7,13 @@ class MyContainer extends StatelessWidget {
   final int color;
   final List<String> letters;
   final int fill;
+  final int length;
 
   const MyContainer({
     required this.image,
     required this.color,
     required this.letters,
+    required this.length,
     required this.fill,
     super.key,
   });
@@ -68,8 +70,9 @@ class MyContainer extends StatelessWidget {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
-                          letters.length,
+                          length,
                           (index) {
+                            bool isFilled = index < fill;
                             return Container(
                               height: 20,
                               color: AppColors.white,
@@ -80,7 +83,7 @@ class MyContainer extends StatelessWidget {
                                   height: 8,
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: AppService.getColorFromInt(color),
+                                    color: isFilled ? AppService.getColorFromInt(color):AppColors.white
                                   ),
                                 ),
                               ),
